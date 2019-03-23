@@ -45,8 +45,6 @@ unless res_json.has_key?('list')
   exit
 end
 
-puts res_json
-
 res_json['list'].each do |id, article|
   # post to slack
   attachments = [
@@ -58,5 +56,5 @@ res_json['list'].each do |id, article|
           ]
     }
   ]
-  Slack.chat_postMessage(channel: '@kakushin.nishimura', attachments: attachments)
+  Slack.chat_postMessage(channel: '4-dimensional-pocket', attachments: attachments)
 end
