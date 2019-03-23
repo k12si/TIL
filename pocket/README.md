@@ -15,23 +15,23 @@ Pocketの記事をSlackにリマインド送信
 
 実装の流れ
 ===
-###Pocket
-[アプリケーションの登録](https://getpocket.com/developer/apps/)
+### Pocket
+* [アプリケーションの登録](https://getpocket.com/developer/apps/)
 * コンシューマキー取得
 * OAuth認証
 * アクセストークン取得
 
-###Slack
-[アプリケーションの登録](https://api.slack.com/apps)
+### Slack
+* [アプリケーションの登録](https://api.slack.com/apps)
 * アプリが利用できるSlackAPIの**Permission Scope**の設定
 * アプリを連携させたいSlackチームにインストール
 * アクセストークン取得
 
-###rubyスクリプト
+### rubyスクリプト
 * <https://getpocket.com/v3/get>へPOSTでPocket記事取得
 * `Slack.chat_postMessage`を利用し、`attachment`表記でSlackに送信
 
-###Heroku
+### Heroku
 * [heroku-cliをインストール](https://devcenter.heroku.com/articles/heroku-cli)
 * `heroku login`
 * rubyの実行環境を構築
