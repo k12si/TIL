@@ -31,7 +31,7 @@ headers = {
     'X-Accept' => 'application/json'
 }
 
-# 昨日pocketに追加した記事を抽出
+# pocketに追加した記事を抽出
 article_get_time = Date.today.to_time.to_i
 
 params = {:consumer_key => CONSUMER_KEY, :access_token => POCKET_ACCESS_TOKEN, :since => article_get_time, :tag => '4-dimensional-pocket'}
