@@ -34,7 +34,7 @@ headers = {
 # pocketに追加した記事を抽出
 article_get_time = Date.today.to_time.to_i
 
-params = {:consumer_key => CONSUMER_KEY, :access_token => POCKET_ACCESS_TOKEN, :since => article_get_time, :tag => '4-dimensional-pocket'}
+params = {:consumer_key => CONSUMER_KEY, :access_token => POCKET_ACCESS_TOKEN, :since => article_get_time}
 res = request('getpocket.com', '/v3/get', params, headers)
 
 raise "error: cannot get response." unless res.is_a?(Net::HTTPOK)
