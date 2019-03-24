@@ -34,7 +34,7 @@ headers = {
 # 昨日pocketに追加した記事を抽出
 article_get_time = (Date.today - 1).to_time.to_i
 
-params = {:consumer_key => CONSUMER_KEY, :access_token => POCKET_ACCESS_TOKEN, :since => article_get_time}
+params = {:consumer_key => CONSUMER_KEY, :access_token => POCKET_ACCESS_TOKEN, :state => 'unread', :since => article_get_time}
 res = request('getpocket.com', '/v3/get', params, headers)
 
 raise "error: cannot get response." unless res.is_a?(Net::HTTPOK)
@@ -57,4 +57,9 @@ res_json['list'].each do |id, article|
     }
   ]
   Slack.chat_postMessage(channel: '4-dimensional-pocket', attachments: attachments)
+
+  # archive
+  actions = JSON.generate([{ "action" => "archive", "item_id" => id.to_s }])
+  params = {:consumer_key => CONSUMER_KEY, :access_token => POCKET_ACCESS_TOKEN, :actions => actions.to_s}
+  res = request('getpocket.com', '/v3/send', params, headers)
 end
