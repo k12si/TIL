@@ -47,7 +47,8 @@ Pocketの記事をSlackにリマインド送信
         * `heroku addons:create scheduler:standard`
     * GUIでスケジューリングの設定
         * `heroku addons:open scheduler`
-* `bundle exec ruby pocket-to-slack`を実行対象に追加
+        * `bundle exec ruby pocket-to-slack`を実行対象に追加
+        * Herokuのスケジューリングの時刻設定はUTCなので注意
 
 
 
