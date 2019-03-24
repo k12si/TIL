@@ -31,8 +31,8 @@ headers = {
     'X-Accept' => 'application/json'
 }
 
-# pocketに追加した記事を抽出
-article_get_time = Date.today.to_time.to_i
+# 昨日pocketに追加した記事を抽出
+article_get_time = (Date.today - 1).to_time.to_i
 
 params = {:consumer_key => CONSUMER_KEY, :access_token => POCKET_ACCESS_TOKEN, :since => article_get_time}
 res = request('getpocket.com', '/v3/get', params, headers)
