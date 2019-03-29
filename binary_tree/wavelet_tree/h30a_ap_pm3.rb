@@ -1,4 +1,4 @@
-DNA = { 'A' => 0, 'C' =>  1, 'G' => 2, 'T' => 3, 'W' => 4, 'Z' => 5, 'Q' => 6, 'S' => 7, 'B' => 8}
+DNA = { 'A' => 0, 'C' =>  1, 'G' => 2, 'T' => 3, 'W' => 4}
 DEPTH = Math.log2(DNA.size).ceil
 
 Node = Struct.new(:key, :left, :right)
@@ -7,6 +7,7 @@ Node = Struct.new(:key, :left, :right)
 def make_tree str, depth, child = 0
   return if depth >= DEPTH
   key = 0
+  flag = 0
   str.chars.each {|c|
     if depth == 0               # 根のとき
       key |= (DNA[c] >> (DEPTH - 1)) & 0x01
@@ -17,9 +18,13 @@ def make_tree str, depth, child = 0
         position_bit = DNA[c] >> (DEPTH - depth - 1)
         key |= position_bit & 0x01
         key <<= 1
+        flag = 1
       end
     end
   }
+  if depth != 0 && flag != 1
+    return
+  end
   key >>= 1
   # childの0,1をどんどん格納していく(過去のbit並びも全て記憶させる)
   child <<= 1
@@ -56,7 +61,7 @@ def rank root, m, r
   n
 end
 
-str_p = "CTQWCZGAWSGAGZWTABZZ"            # DNA配列
+str_p = "CTCGAGAGTAW"            # DNA配列
 
 root = make_tree str_p, 0       # ウェーブレット木を構築
 pp root
