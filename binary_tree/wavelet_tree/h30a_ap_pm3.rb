@@ -1,10 +1,10 @@
-DNA = { 'A' => 0, 'C' =>  1, 'G' => 2, 'T' => 3 }
-DEPTH = Math.log2(DNA.size).to_i
+DNA = { 'A' => 0, 'C' =>  1, 'G' => 2, 'T' => 3, 'W' => 4, 'Z' => 5, 'Q' => 6, 'S' => 7, 'B' => 8}
+DEPTH = Math.log2(DNA.size).ceil
 
 Node = Struct.new(:key, :left, :right)
 
 # ウェーブレット木の構築
-def make_tree str, depth, child = nil
+def make_tree str, depth, child = 0
   return if depth >= DEPTH
   key = 0
   str.chars.each {|c|
@@ -12,17 +12,22 @@ def make_tree str, depth, child = nil
       key |= (DNA[c] >> (DEPTH - 1)) & 0x01
       key <<= 1
     else                        # 根以外のとき
-      if ((DNA[c] >> depth) & 0x01) == child
-        key |= (DNA[c] >> (depth - 1)) & 0x01
+      # マスク対象のbit位置は,位置bit前のbit全て
+      if (DNA[c] >> (DEPTH - depth)) == child
+        position_bit = 1 << (DEPTH - depth - 1)
+        key |= ((DNA[c] & position_bit) >> (DEPTH - depth - 1)) & 0x01
         key <<= 1
       end
     end
   }
   key >>= 1
-  left  = make_tree str, depth+1, 0
-  right = make_tree str, depth+1, 1
+  # childの0,1をどんどん格納していく(過去のbit並びも全て記憶させる)
+  child <<= 1
+  left  = make_tree str, depth+1, child |= 0
+  right = make_tree str, depth+1, child |= 1
   node = Node.new(key, left, right)
 end
+
 
 # 対象文字の出現回数を数える
 def rank root, m, r
@@ -51,7 +56,7 @@ def rank root, m, r
   n
 end
 
-str_p = "CTCGAGAGTA"            # DNA配列
+str_p = "CTQWCZGAWSGAGZWTABZZ"            # DNA配列
 
 root = make_tree str_p, 0       # ウェーブレット木を構築
 pp root
