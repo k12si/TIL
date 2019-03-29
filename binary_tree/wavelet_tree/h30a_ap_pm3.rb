@@ -14,8 +14,8 @@ def make_tree str, depth, child = 0
     else                        # 根以外のとき
       # マスク対象のbit位置は,位置bit前のbit全て
       if (DNA[c] >> (DEPTH - depth)) == child
-        position_bit = 1 << (DEPTH - depth - 1)
-        key |= ((DNA[c] & position_bit) >> (DEPTH - depth - 1)) & 0x01
+        position_bit = DNA[c] >> (DEPTH - depth - 1)
+        key |= position_bit & 0x01
         key <<= 1
       end
     end
