@@ -58,3 +58,5 @@ def main
   # スプレッドシート出力
   response = service.append_spreadsheet_value(spreadsheet_id, range, going_work_time, value_input_option: 'USER_ENTERED')
 end
+
+main
